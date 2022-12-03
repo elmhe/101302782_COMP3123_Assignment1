@@ -14,9 +14,9 @@ app.get('/employees', async (req, res) => {
 
 // /api/emp/employees
 app.post('/employees', async (req, res) => {
-    const newEmp = new userModel(req.body)
+    const newEmp = new empModel(req.body)
     try {
-        await empModel.save()
+        await newEmp.save()
         res.status(201).send(newEmp)
     } catch (error) {
         res.status(500).send(error)
@@ -35,7 +35,18 @@ app.get('/employees/', async (req, res) => {
 });
 
 // /api/emp/employees/{eid}
-app.put('/employees', async (req, res) => {
+app.get('/employees/:eid', async (req, res) => {
+    const emp_id = req.params.eid
+    try {
+        await empModel.find()
+        res.status(201).send(emp_id)
+    } catch (error) {
+        res.status(500).send(error)
+    }
+});
+
+// /api/emp/employees/{eid}
+app.put('/employees/:eid', async (req, res) => {
     const emp_id = req.params.eid
     try {
         await empModel.findByIdAndUpdate(req.params.emp_id, req.body)
@@ -47,10 +58,10 @@ app.put('/employees', async (req, res) => {
 
 
 // /api/emp/employees?eid=xxx
-app.delete('/employees', async(req, res) => {
+app.delete('/employees', (req, res) => {
     const emp_id = req.query.eid
     try {
-        const deleteEmp = await empModel.findByIdAndDelete(req.params.emp_id)
+        const deleteEmp = empModel.findByIdAndDelete(req.params.emp_id)
         if(!deleteEmp){
             res.status(500).send(error)
         }

@@ -27,7 +27,7 @@ app.post('/signup', async (req, res) => {
 app.post('/login', async (req, res) => {
     try{
         const findUser = userModel.findById(req.params.content)
-        res.status(201).send({status: true}, findUser, {message: "User logged in successfully"})
+        res.status(201).send({status: true, findUser, message: "User logged in successfully"})
     }catch(error){
         res.status(500).send({status: false, message: "Invalid Username and password"})
     }
